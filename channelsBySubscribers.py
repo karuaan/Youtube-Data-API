@@ -5,33 +5,21 @@
 # https://developers.google.com/explorer-help/guides/code_samples#python
 
 import os
-
-from google.oauth2 import service_account
-import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
+import json
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
 def main():
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
 
     api_service_name = "youtube"
     api_version = "v3"
-    client_secrets_file = "service_account_client_secrets.json"
 
-
-
-    # Get credentials and create an API client
-    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-        client_secrets_file, scopes)
-    credentials = flow.run_console()
-
-    print (credentials)
     youtube = googleapiclient.discovery.build(
-        api_service_name, api_version, credentials=credentials)
+        api_service_name, api_version, developerKey='AIzaSyAfaRcWzZheVBtQ5o1e3sudkfG9NlNF2js')
 
 
     request = youtube.channels().list(
@@ -40,7 +28,13 @@ def main():
     )
     response = request.execute()
 
-    print(response)
+    reponse_type = type(response)
+
+    print(reponse_type)
+
+    json_formatted_string = json.dumps(response, indent=2)
+
+    print(json_formatted_string)
 
 if __name__ == "__main__":
     main()
@@ -72,7 +66,7 @@ justinBeiberObj = Channels('UCIwFjwMjI0y7PDBVEO9-bkQ','Justin Bieber',56100000)
 
 youtubeChannelsList = [tseriesObj, pewObj, CocomelonObj,setIndiaObj,fiveMinCraftsObj,wweObj,kidsDianaShowObj,zeeMusicObj,canalKondObj,likeNastyaObj,justinBeiberObj]
 
-for i in youtubeChannelsList:
-    print(youtubeChannelsList[i].name)
-
+#for i in youtubeChannelsList:
+#   print(youtubeChannelsList[i].name)
+#   i+=1
 print(youtubeChannelsList[1].name)
