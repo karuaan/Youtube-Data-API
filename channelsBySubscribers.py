@@ -3,6 +3,8 @@ import googleapiclient.discovery
 import googleapiclient.errors
 import json
 import datetime
+from collections import OrderedDict
+import time
 
 api_service_name = "youtube"
 api_version = "v3"
@@ -51,8 +53,8 @@ def updateCountJob(constant_channels: list) -> list:
     channels_details: list = []
     for channelObj in constant_channels:
         
-        channel_id : str = channelObj.channelid
-        channel_name : str = channelObj.name
+        channel_id: str = channelObj.channelid
+        channel_name: str = channelObj.name
         
         print(channel_name+"\n")
 
@@ -87,18 +89,32 @@ def updateCountJob(constant_channels: list) -> list:
             
 
 def make_new_file(channel_list: list) -> str:
-    file_details : dict = {}
-    curr_date_time : str = datetime.datetime.now().ctime()
-    file_date : str = datetime.datetime.now().strftime("%A_%Y%m%d%H")
-    file_name : str = file_date + ".json"
-    file_path : str = "Data/" + file_name
+    file_details: dict = {}
+    curr_date_time: str = datetime.datetime.now().ctime()
+    file_date: str = datetime.datetime.now().strftime("%A_%Y%m%d%H")
+    file_name: str = file_date + ".json"
+    file_path: str = "Data/" + file_name
     file_details["Title"] = "Top 10 Youtube Channels Subcribers Update"
     file_details["Last_Update_Time"] = curr_date_time
     file_details["Channel_Details"] = channel_list
-    new_json_file : str = json.dumps(file_details, indent=2,sort_keys=True)
+    new_json_file: str = json.dumps(file_details, indent=2)
     with open(file_path,"w") as outfile:
         outfile.write(new_json_file)
     return curr_date_time
+
+def runScript(num_of_hours: int):
+    i = 0
+
+    for i in range(num_of_hours):
+        channel_details : list = updateCountJob(youtubechannels)
+        last_run_time = make_new_file(channel_details)
+        print (last_run_time + " run is completed!")
+        time.sleep(3600)
+        i+=1
+    print("Number of Hours job has run: " + str(num_of_hours))
+
+def main():
+    runScript(3)
 
 # def main():
 
@@ -125,5 +141,4 @@ def make_new_file(channel_list: list) -> str:
 #     print(json_formatted_string)
 
 if __name__ == "__main__":
-    channel_details : list = updateCountJob(youtubechannels)
-    make_new_file(channel_details)
+   main()
