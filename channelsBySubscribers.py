@@ -59,17 +59,29 @@ def updateCountJob(constant_channels: list) -> list:
         print(channel_name+"\n")
 
         request = youtube.channels().list(
-        part="statistics",
+        part="statistics,contentDetails",
         id=channel_id,
         prettyPrint=True)
 
         response = request.execute()
-        #new_sub_count = response["items"][0]["statistics"]["subscriberCount"]
         items: list = response.get('items')
         if (items == None):
             print ("\nItems Dictionary is not available.\n")
         else:
             statistics: list = items[0].get('statistics')   
+            content_details: list = items[0].get('contentDetails')
+            if (content_details == None):
+                print ("\nContent Details Dictionary is not available.\n")
+            else:
+                relatedPlaylists: dict = content_details.get('relatedPlaylists')
+                if (relatedPlaylists == None):
+                    print ("\Related Playlists Dictionary is not available.\n")
+                else:
+                    uploads: str = relatedPlaylists.get('uploads')
+                    if (uploads == None):
+                        print ("\nUploads ID is not available.\n")
+                    else:
+                        print ("Uploads ID:" + uploads)
             if (statistics == None):
                 print ("\nStatistics Dictionary is not available.\n")
             else:
@@ -82,11 +94,10 @@ def updateCountJob(constant_channels: list) -> list:
                 else:
                     print("Video Count: " + video_count + "\n")
                     print("Sub Count: " + sub_count + "\n")
-                    stats: dict = {"Subscriber_Count" : sub_count, "Video_Count" : video_count, "Channel_ID" : channel_id}
-                    channel: dict = {channel_name : stats}
-                    channels_details.append(channel)
+                stats: dict = {"Subscriber_Count" : sub_count, "Video_Count" : video_count, "Channel_ID" : channel_id, "Uploads ID" : uploads}
+                channel: dict = {channel_name : stats}
+                channels_details.append(channel)
     return channels_details 
-            
 
 def make_new_file(channel_list: list) -> str:
     file_details: dict = {}
@@ -115,30 +126,6 @@ def runScript(num_of_hours: int):
 
 def main():
     runScript(3)
-
-# def main():
-
-#     api_service_name = "youtube"
-#     api_version = "v3"
-#     youtube_dev_keys = 'AIzaSyAfaRcWzZheVBtQ5o1e3sudkfG9NlNF2js'
-
-#     youtube = googleapiclient.discovery.build(
-#         api_service_name, api_version, developerKey=youtube_dev_keys)
-
-
-#     request = youtube.channels().list(
-#         part="snippet,statistics",
-#         id="UCq-Fj5jknLsUf-MWSy4_brA"
-#     )
-#     response = request.execute()
-
-#     reponse_type = type(response)
-
-#     print(reponse_type)
-
-#     json_formatted_string = json.dumps(response, indent=2)
-
-#     print(json_formatted_string)
 
 if __name__ == "__main__":
    main()
