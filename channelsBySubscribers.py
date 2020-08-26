@@ -49,6 +49,8 @@ youtubechannels = [tseriesObj, pewObj, CocomelonObj,setIndiaObj,fiveMinCraftsObj
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
+
+
 def updateCountJob(constant_channels: list) -> list:
     channels_details: list = []
     for channelObj in constant_channels:
@@ -95,11 +97,11 @@ def updateCountJob(constant_channels: list) -> list:
                     print("Video Count: " + video_count + "\n")
                     print("Sub Count: " + sub_count + "\n")
                 stats: dict = {"Subscriber_Count" : sub_count, "Video_Count" : video_count, "Channel_ID" : channel_id, "Uploads ID" : uploads}
-                channel: dict = {channel_name : stats}
+                channel: dict = {"Name" : channel_name, "Details" : stats}
                 channels_details.append(channel)
     return channels_details 
 
-def make_new_file(channel_list: list) -> str:
+def make_new_file(channel_list: list) -> list:
     file_details: dict = {}
     curr_date_time: str = datetime.datetime.now().ctime()
     file_date: str = datetime.datetime.now().strftime("%A_%Y%m%d%H")
@@ -111,15 +113,38 @@ def make_new_file(channel_list: list) -> str:
     new_json_file: str = json.dumps(file_details, indent=2)
     with open(file_path,"w") as outfile:
         outfile.write(new_json_file)
-    return curr_date_time
+    return [curr_date_time,file_path]
+
+def make_latest_file(channel_list: list) -> list:
+     file_details: dict = {}
+     curr_date_time: str = datetime.datetime.now().ctime()
+     file_name: str = "Data/latest.json"
+     file_details["Title"] = "Top 10 Youtube Channels Subcribers Update"
+     file_details["Last_Update_Time"] = curr_date_time
+     file_details["Channel_Details"] = channel_list
+     new_json_file: str = json.dumps(file_details, indent=2)
+     with open(file_name,"w") as outfile:
+         outfile.write(new_json_file)
+
+def video_count_compare(old_file: str, curr_file: str) -> dict:
+    new_videos_count: dict = {}
+    with open(old_file) as old_file_data:
+        old_data = json.load(old_file_data)
+    with open(curr_file) as new_file:
+        new_data = json.load(new_file)
+    print(old_data)
 
 def runScript(num_of_hours: int):
     i = 0
 
     for i in range(num_of_hours):
-        channel_details : list = updateCountJob(youtubechannels)
-        last_run_time = make_new_file(channel_details)
-        print (last_run_time + " run is completed!")
+        channel_details: list = updateCountJob(youtubechannels)
+        new_file_details = make_new_file(channel_details)
+        run_time = new_file_details[0]
+        new_file = new_file_details[1]
+        video_count_compare("Data/latest.json", new_file)
+        make_latest_file(channel_details)
+        print ("\n" + run_time + " run is completed!")
         time.sleep(3600)
         i+=1
     print("Number of Hours job has run: " + str(num_of_hours))
