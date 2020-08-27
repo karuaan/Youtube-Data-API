@@ -126,23 +126,107 @@ def make_latest_file(channel_list: list) -> list:
      with open(file_name,"w") as outfile:
          outfile.write(new_json_file)
 
-def video_count_compare(old_file: str, curr_file: str) -> dict:
-    new_videos_count: dict = {}
-    with open(old_file) as old_file_data:
-        old_data = json.load(old_file_data)
-    with open(curr_file) as new_file:
-        new_data = json.load(new_file)
-    print(old_data)
+def find_latest_videos(playlist_id: str, num_of_new_videos: int) -> dict:
+    latest_videos: dict = {}
+    request = youtube.channels().list(
+        part="contentDetails,snippet",
+        maxResults=num_of_new_videos,
+        playlistId=playlist_id,
+        prettyPrint=True
+    )
+    response = request.execute()
+    videos: list = response.get("items")
+    if (videos == None):
+        print ("\nVideos List is not available.\n")
+    else:
+        new_vids: list = []
+        for video in videos:
+            content_details = video.get("contentDetails")
+            if (content_details == None):
+                print("\nContent Details Dictionary does not exist!\n")
+            else:
+                video_id = video.get("videoId")
+                new_vids.append(video_id)
+    latest_videos = {"Name" : name,"New Videos" : new_vids}
+    return latest_videos
+
+def get_channel_playlist_id(channel_name: str) -> str:
+    with open("Data/latest.json") as file:
+        channel_details: list = file.get("Channel_Details")
+        if (channel_details == None):
+            print("\nChannel Details List does not exist!\n")
+        else:
+            for channel in channel_details:
+                channel_title = channel.get("Name")
+                if (channel_title == None):
+                    print("\nChannel Name does not exist!\n")
+                elif (channel_title == channel_name):
+                    details: dict = channel.get("Details")
+                    if (details == None):
+                        print("\nChannel Details do not exist!\n")
+                    else:
+                        playlist: str = details.get("Uploads ID")
+                        if (playlist == None):
+                            print("\nPlaylist ID does not exist for this channel!\n")
+                        else:
+                            return playlist
+                else:
+                    continue
+
+def get_sub_count(channel_name: str, file: str) -> int:
+    with open(file) as f:
+        channel_details: list = f.get("Channel_Details")
+        if (channel_details == None):
+            print("\nChannel Details List does not exist!\n")
+        else:
+            for channel in channel_details:
+                channel_title = channel.get("Name")
+                if (channel_title == None):
+                    print("\nChannel Name does not exist!\n")
+                elif (channel_title == channel_name):
+                    details: dict = channel.get("Details")
+                    if (details == None):
+                        print("\nChannel Details do not exist!\n")
+                    else:
+                        sub_count = details.get("Subscriber_Count")
+                        if (sub_count == None):
+                            print("\nNo Videos Exist!\n")
+                        else:
+                            return int(sub_count)
+                else:
+                    continue
+
+def channel_video_count_finder(channel_name: str, file: str) -> int:
+    with open(file) as f:
+        channel_details: list = f.get("Channel_Details")
+        if (channel_details == None):
+            print("\nChannel Details List does not exist!\n")
+        else:
+            for channel in channel_details:
+                channel_title = channel.get("Name")
+                if (channel_title == None):
+                    print("\nChannel Name does not exist!\n")
+                elif (channel_title == channel_name):
+                    details: dict = channel.get("Details")
+                    if (details == None):
+                        print("\nChannel Details do not exist!\n")
+                    else:
+                        video_count = details.get("Video_Count")
+                        if (video_count == None):
+                            print("\nNo Videos Exist!\n")
+                        else:
+                            return int(video_count)
+                else:
+                    continue
 
 def runScript(num_of_hours: int):
-    i = 0
+    i = 1
 
     for i in range(num_of_hours):
         channel_details: list = updateCountJob(youtubechannels)
         new_file_details = make_new_file(channel_details)
         run_time = new_file_details[0]
         new_file = new_file_details[1]
-        video_count_compare("Data/latest.json", new_file)
         make_latest_file(channel_details)
         print ("\n" + run_time + " run is completed!")
         time.sleep(3600)
