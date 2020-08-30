@@ -5,12 +5,29 @@ import json
 import datetime
 from collections import OrderedDict
 import time
+import boto3
+from botocore.exceptions import NoCredentialsError
 
 api_service_name = "youtube"
 api_version = "v3"
 youtube_dev_keys = 'AIzaSyAfaRcWzZheVBtQ5o1e3sudkfG9NlNF2js'
 
 youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey=youtube_dev_keys)
+
+AWS_ACCESS_KEY_ID = 'AKIAJ4HQ5WOTNEFOBF7A'
+AWS_SECRET_ACCESS_KEY = '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'
+bucket_name = 'youtubechannelsdatas3'
+
+def upload_to_s3(data: str, bucket: str, s3_file: str):
+    s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    
+    try:
+        s3.put_object(Body=data, Bucket=bucket, Key=s3_file)
+        print("Upload Successful")
+        return True
+    except NoCredentialsError:
+        print("Credentials not available")
+        return False
 
 # Channels Class
 class Channels:
@@ -104,51 +121,52 @@ def updateCountJob(constant_channels: list) -> list:
 def make_new_file(channel_list: list) -> list:
     file_details: dict = {}
     curr_date_time: str = datetime.datetime.now().ctime()
-    file_date: str = datetime.datetime.now().strftime("%A_%Y%m%d%H")
-    file_name: str = file_date + ".json"
-    file_path: str = "Data/" + file_name
+    file_year: str = datetime.datetime.now().strftime("%Y")
+    file_month: str = datetime.datetime.now().strftime("%m")
+    file_day: str = datetime.datetime.now().strftime("%d")
+    file_hour: str = datetime.datetime.now().strftime("%H")
+    file_name: str = "channel_details.json"
+    file_path: str =  file_year + "/" + file_month + "/" + file_day + "/" + file_hour + "/" + file_name
     file_details["Title"] = "Top 10 Youtube Channels Subcribers Update"
     file_details["Last_Update_Time"] = curr_date_time
     file_details["Channel_Details"] = channel_list
     new_json_file: str = json.dumps(file_details, indent=2)
-    with open(file_path,"w") as outfile:
-        outfile.write(new_json_file)
-    return [curr_date_time,file_path]
+    upload_to_s3(new_json_file, bucket_name, file_path)
+    return [curr_date_time, file_path]
 
 def make_latest_file(channel_list: list) -> list:
      file_details: dict = {}
      curr_date_time: str = datetime.datetime.now().ctime()
-     file_name: str = "Data/latest.json"
+     file_name: str = "latest.json"
      file_details["Title"] = "Top 10 Youtube Channels Subcribers Update"
      file_details["Last_Update_Time"] = curr_date_time
      file_details["Channel_Details"] = channel_list
      new_json_file: str = json.dumps(file_details, indent=2)
-     with open(file_name,"w") as outfile:
-         outfile.write(new_json_file)
+     upload_to_s3(new_json_file,bucket_name,file_name)
 
-def find_latest_videos(playlist_id: str, num_of_new_videos: int) -> dict:
-    latest_videos: dict = {}
-    request = youtube.channels().list(
-        part="contentDetails,snippet",
-        maxResults=num_of_new_videos,
-        playlistId=playlist_id,
-        prettyPrint=True
-    )
-    response = request.execute()
-    videos: list = response.get("items")
-    if (videos == None):
-        print ("\nVideos List is not available.\n")
-    else:
-        new_vids: list = []
-        for video in videos:
-            content_details = video.get("contentDetails")
-            if (content_details == None):
-                print("\nContent Details Dictionary does not exist!\n")
-            else:
-                video_id = video.get("videoId")
-                new_vids.append(video_id)
-    latest_videos = {"Name" : name,"New Videos" : new_vids}
-    return latest_videos
+# def find_latest_videos(playlist_id: str, num_of_new_videos: int) -> dict:
+#     latest_videos: dict = {}
+#     request = youtube.channels().list(
+#         part="contentDetails,snippet",
+#         maxResults=num_of_new_videos,
+#         playlistId=playlist_id,
+#         prettyPrint=True
+#     )
+#     response = request.execute()
+#     videos: list = response.get("items")
+#     if (videos == None):
+#         print ("\nVideos List is not available.\n")
+#     else:
+#         new_vids: list = []
+#         for video in videos:
+#             content_details = video.get("contentDetails")
+#             if (content_details == None):
+#                 print("\nContent Details Dictionary does not exist!\n")
+#             else:
+#                 video_id = video.get("videoId")
+#                 new_vids.append(video_id)
+#     latest_videos = {"Name" : name,"New Videos" : new_vids}
+#     return latest_videos
 
 def get_channel_playlist_id(channel_name: str) -> str:
     with open("Data/latest.json") as file:
@@ -219,22 +237,21 @@ def channel_video_count_finder(channel_name: str, file: str) -> int:
                 else:
                     continue
 
-def runScript(num_of_hours: int):
-    i = 1
+def runScript():
+    channel_details: list = updateCountJob(youtubechannels)
+    new_file_details = make_new_file(channel_details)
+    run_time = new_file_details[0]
+    new_file = new_file_details[1]
+    make_latest_file(channel_details)
+    print ("\n" + run_time + " run is completed!")
 
-    for i in range(num_of_hours):
-        channel_details: list = updateCountJob(youtubechannels)
-        new_file_details = make_new_file(channel_details)
-        run_time = new_file_details[0]
-        new_file = new_file_details[1]
-        make_latest_file(channel_details)
-        print ("\n" + run_time + " run is completed!")
-        time.sleep(3600)
-        i+=1
-    print("Number of Hours job has run: " + str(num_of_hours))
-
-def main():
-    runScript(3)
+def lambda_handler(event, context):
+    try:
+        print("Writing Data to S3 Bucket!")
+        runScript()
+        print("Data Write is completed ")
+    except Exception as e:
+        print(e)
 
 if __name__ == "__main__":
-   main()
+    runScript()
