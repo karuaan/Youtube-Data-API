@@ -1,0 +1,4 @@
+.vscode
+Data/*
+googleapi/*
+youtube_api_lambda_function/*
