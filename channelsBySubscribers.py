@@ -7,17 +7,18 @@ from collections import OrderedDict
 import time
 import boto3
 from botocore.exceptions import NoCredentialsError
-from Data.Channels_Data import youtubechannels
+#from Data.Channels_Data import youtubechannels
+from Keys import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, youtube_dev_keys
 
 
 api_service_name = "youtube"
 api_version = "v3"
-youtube_dev_keys = 'AIzaSyAfaRcWzZheVBtQ5o1e3sudkfG9NlNF2js'
+#youtube_dev_keys = 'AIzaSyAfaRcWzZheVBtQ5o1e3sudkfG9NlNF2js'
 
 youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey=youtube_dev_keys)
 
-AWS_ACCESS_KEY_ID = 'AKIAIKWAPGO3XRCZZM5A'
-AWS_SECRET_ACCESS_KEY = '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'
+# AWS_ACCESS_KEY_ID = 'AKIAIKWAPGO3XRCZZM5A'
+# AWS_SECRET_ACCESS_KEY = '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'
 bucket_name = 'youtubechannelsdatas3'
 
 def upload_to_s3(data: str, bucket: str, s3_file: str):
