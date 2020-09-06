@@ -1,4 +1,4 @@
-from ..Classes import Channels
+from Classes.Channels import Channels
 
 tseriesObj = Channels("UCq-Fj5jknLsUf-MWSy4_brA",'T-Series')
 pewObj = Channels('UC-lHJZR3Gqxm24_Vd_AJ5Yw','PewDiePie')

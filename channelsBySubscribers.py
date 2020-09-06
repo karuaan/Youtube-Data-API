@@ -88,8 +88,8 @@ def updateCountJob(constant_channels: list) -> list:
         if (items == None):
             print ("\nItems Dictionary is not available.\n")
         else:
-            statistics: list = items[0].get('statistics')   
-            content_details: list = items[0].get('contentDetails')
+            statistics = items[0].get('statistics')
+            content_details = items[0].get('contentDetails')
             if (content_details == None):
                 print ("\nContent Details Dictionary is not available.\n")
             else:
@@ -112,8 +112,8 @@ def updateCountJob(constant_channels: list) -> list:
                 if (video_count == None):
                     print("\nSubscriber Count is not available!\n")
                 else:
-                    print("Video Count: " + video_count + "\n")
-                    print("Sub Count: " + sub_count + "\n")
+                    print("Video Count: " + str(video_count) + "\n")
+                    print("Sub Count: " + str(sub_count) + "\n")
                 stats: dict = {"Subscriber_Count" : sub_count, "Video_Count" : video_count, "Channel_ID" : channel_id, "Uploads ID" : uploads}
                 channel: dict = {"Name" : channel_name, "Details" : stats}
                 channels_details.append(channel)
@@ -135,7 +135,7 @@ def make_new_file(channel_list: list) -> list:
     upload_to_s3(new_json_file, bucket_name, file_path)
     return [curr_date_time, file_path]
 
-def make_latest_file(channel_list: list) -> list:
+def make_latest_file(channel_list: list):
      file_details: dict = {}
      curr_date_time: str = datetime.datetime.now().ctime()
      file_name: str = "latest.json"
