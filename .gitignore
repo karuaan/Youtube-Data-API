@@ -1,4 +1,3 @@
 .vscode
 googleapi/*
 youtube_api_lambda_function/*
-Keys.py
