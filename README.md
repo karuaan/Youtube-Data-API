@@ -2,7 +2,7 @@ Youtube-Data-API
 ===
 
 Technologies Used:
-___
+---
 
 __AWS S3__ (Stored Feeds into the S3 Bucket through code)
 
@@ -13,7 +13,7 @@ __Youtube API__ (Pulled Channel information through Youtube Data API)
 __Python3__ (Backend API for ETL).
 
 Functionality:
-___
+---
 
     1. Get Latest Subscriber Count and Video Count of Top 11 Channels Every 3 Hours.
     
@@ -24,20 +24,21 @@ ___
     4. Get Change in Subscriber Count and Video Count Every 3 Hours.
 
 How to Run:
-___
+---
 
     1. Clone the Repo from Github.
 
     2. Create a Virtual Environment:
 
-    *__Windows:__ `python3 -m venv /path/to/new/virtual/environment`
-    *__Activate Virtual Environment:__ `\path\to\new\virtual\environment\Scripts\activate`
+*__Windows:__ `python3 -m venv /path/to/new/virtual/environment`
+
+*__Activate Virtual Environment:__ `\path\to\new\virtual\environment\Scripts\activate`
 
     3. Install all packages in requirement.txt:
 
-        `pip install -r requirements.txt`
+*`pip install -r requirements.txt`
 
-        `pip freeze > requirements.txt`
+*`pip freeze > requirements.txt`
     
     4. Create a Google API Key: `https://console.developers.google.com/`
 
@@ -47,14 +48,14 @@ ___
 
     7. Make an S3 Bucket.
 
-    8. To run code on local machine, please run channelsBySubscribers.py. __(Optional)__
+    8. (Optional) To run code on local machine, please run channelsBySubscribers.py. (Optional)
 
     9. Create a Lambda in AWS and upload the code to AWS.
 
     10. Profit.
 
 Future Plans:
-___
+---
 
     1. Make a Dashboard for this application.
     
