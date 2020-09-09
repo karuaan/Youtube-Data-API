@@ -4,13 +4,13 @@ Youtube-Data-API
 Technologies Used:
 ---
 
-__AWS S3__ (Stored Feeds into the S3 Bucket through code)
+*__AWS S3__ (Stored Feeds into the S3 Bucket through code).
 
-__AWS Lambda Functions__ (Ran the code through a Lambda Function in AWS using Console)
+*__AWS Lambda Functions__ (Ran the code through a Lambda Function in AWS using Console).
 
-__Youtube API__ (Pulled Channel information through Youtube Data API)
+*__Youtube API__ (Pulled Channel information through Youtube Data API).
 
-__Python3__ (Backend API for ETL).
+*__Python3__ (Backend API for ETL Processes).
 
 Functionality:
 ---
@@ -30,15 +30,15 @@ How to Run:
 
     2. Create a Virtual Environment:
 
-*__Windows:__ `python3 -m venv /path/to/new/virtual/environment`
+__Windows:__ `python3 -m venv /path/to/new/virtual/environment`
 
-*__Activate Virtual Environment:__ `\path\to\new\virtual\environment\Scripts\activate`
+__Activate Virtual Environment:__ `\path\to\new\virtual\environment\Scripts\activate`
 
     3. Install all packages in requirement.txt:
 
-*`pip install -r requirements.txt`
+`pip install -r requirements.txt`
 
-*`pip freeze > requirements.txt`
+`pip freeze > requirements.txt`
     
     4. Create a Google API Key: `https://console.developers.google.com/`
 
