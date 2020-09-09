@@ -4,13 +4,13 @@ Youtube-Data-API
 Technologies Used:
 ---
 
-*__AWS S3__ (Stored Feeds into the S3 Bucket through code).
+__AWS S3__ (Stored Feeds into the S3 Bucket through code).
 
-*__AWS Lambda Functions__ (Ran the code through a Lambda Function in AWS using Console).
+__AWS Lambda Functions__ (Ran the code through a Lambda Function in AWS using Console).
 
-*__Youtube API__ (Pulled Channel information through Youtube Data API).
+__Youtube API__ (Pulled Channel information through Youtube Data API).
 
-*__Python3__ (Backend API for ETL Processes).
+__Python3__ (Backend API for ETL Processes).
 
 Functionality:
 ---
