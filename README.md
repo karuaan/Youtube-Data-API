@@ -30,15 +30,15 @@ How to Run:
 
     2. Create a Virtual Environment:
 
-__Windows:__ `python3 -m venv /path/to/new/virtual/environment`
+__Make Virtual Environment:__ `python3 -m venv /path/to/new/virtual/environment`
 
 __Activate Virtual Environment:__ `\path\to\new\virtual\environment\Scripts\activate`
 
     3. Install all packages in requirement.txt:
 
-        i. `pip install -r requirements.txt`
+`pip install -r requirements.txt`
 
-        ii. `pip freeze > requirements.txt`
+`pip freeze > requirements.txt`
     
     4. Create a Google API Key: `https://console.developers.google.com/`
 
