@@ -36,9 +36,9 @@ __Activate Virtual Environment:__ `\path\to\new\virtual\environment\Scripts\acti
 
     3. Install all packages in requirement.txt:
 
-        1. `pip install -r requirements.txt`
+        i. `pip install -r requirements.txt`
 
-        2. `pip freeze > requirements.txt`
+        ii. `pip freeze > requirements.txt`
     
     4. Create a Google API Key: `https://console.developers.google.com/`
 
