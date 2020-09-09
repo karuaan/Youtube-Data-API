@@ -2,7 +2,7 @@ Youtube-Data-API
 ===
 
 Technologies Used:
-===
+___
 
 __AWS S3__ (Stored Feeds into the S3 Bucket through code)
 
@@ -13,7 +13,7 @@ __Youtube API__ (Pulled Channel information through Youtube Data API)
 __Python3__ (Backend API for ETL).
 
 Functionality:
-===
+___
 
     1. Get Latest Subscriber Count and Video Count of Top 11 Channels Every 3 Hours.
     
@@ -24,7 +24,7 @@ Functionality:
     4. Get Change in Subscriber Count and Video Count Every 3 Hours.
 
 How to Run:
-===
+___
 
     1. Clone the Repo from Github.
 
@@ -54,7 +54,7 @@ How to Run:
     10. Profit.
 
 Future Plans:
-===
+___
 
     1. Make a Dashboard for this application.
     
