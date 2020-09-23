@@ -1,4 +1,29 @@
 .vscode
-googleapi/*
-youtube_api_lambda_function/*
-Keys.py
+Backend/googleapi/*
+Backend/youtube_api_lambda_function/*
+Backend/Keys.py
+Frontend/Node/node_modules/*
+Frontend/Node/keys.js
+latest.json
+
+# dependencies
+Frontend/client/node_modules/*
+Frontend/client/.pnp
+Frontend/client/.pnp.js
+
+# testing
+Frontend/client/coverage
+
+# production
+Frontend/client/build
+
+# misc
+Frontend/client/.DS_Store
+Frontend/client/.env.local
+Frontend/client/.env.development.local
+Frontend/client/.env.test.local
+Frontend/client/.env.production.local
+
+Frontend/client/npm-debug.log*
+Frontend/client/yarn-debug.log*
+Frontend/client/yarn-error.log*
