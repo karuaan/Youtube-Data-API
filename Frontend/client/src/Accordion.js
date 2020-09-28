@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import Chevron from './Icons/Chevron.js';
 
 import "./Accordion.css";
+
+
 
 function linkCreate(videoID) {
     let urlLink = "https://www.youtube.com/watch?v="+videoID;
@@ -10,17 +12,29 @@ function linkCreate(videoID) {
 
 function Accordion(props)
 {
+    const [setActive, setActiveState] = useState("");
+    const [setHeight, setHeightState] = useState("0px");
+    const [setRotate, setRotateState] = useState("accordion_icon")
+    const content = useRef(null);
+
+    function toggleAccordion() {
+        setActiveState(setActive === "" ? "active" : "");
+        setHeightState(setActive === "active" ? "0px" : `${content.current.scrollHeight}px`);
+        setRotateState(setActive === "active" ? "accordion_icon" : "accordion_icon rotate")
+        console.log(content.current.scrollHeight)
+    }
+
     return (
     <div className="accordion_section">
-        <button className="accordion">
+        <button className={`accordion ${setActive}`} onClick={toggleAccordion}>
             <table className="channelDetails">
-                <td className="channelName">Channel Name: {props.Name}</td>
-                <td className="channelSubCount">Subscriber Count: {props.subCount} {props.subDiff}</td>
-                <td className="channelVideoCount">Video Count: {props.videoCount} {props.vidDiff}</td>
-                <td className="chevron"><Chevron width = {12} height={20} /></td>
+                <td className="channelName"><b>Channel Name: {props.Name}</b></td>
+                <td className="channelSubCount"><b>Subscriber Count: {props.subCount}</b> {props.subDiff}</td>
+                <td className="channelVideoCount"><b>Video Count: {props.videoCount}</b> {props.vidDiff}</td>
+                <Chevron className={`${setRotate}`} width ={25} height={25} />
             </table>
         </button>
-        <div className="accordion_content">
+        <div ref={content} style={{maxHeight: `${setHeight}`}} className="accordion_content">
             <div className="video_text">
                 <table className="videoDetails">
                     <thead className="videoHeader">

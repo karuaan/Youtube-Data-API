@@ -10,16 +10,16 @@ function differenceHelper(differenceNumber)
 {
   if (differenceNumber > 0)
   {
-    return <span className="increaseNumber"><CountIncrease width={12} height={14} /> {differenceNumber} </span>;
+    return <span className="increaseNumber"><CountIncrease width={20} height={15} /> {differenceNumber} </span>;
   } else if (differenceNumber < 0) {
 
     let non_negative = differenceHelper*-1;
     
-    return <span className="decreaseNumber"> <CountDecrease width={12} height={13}  /> {non_negative} </span>;
+    return <span className="decreaseNumber"> <CountDecrease width={20} height={15}  /> {non_negative} </span>;
 
 
   } else {
-    return <span className="sameNumber"><CountEqual width={12} height={12} /> {differenceNumber}</span>;
+    return <span className="sameNumber"><CountEqual width={20} height={10} /> {differenceNumber}</span>;
   }
 }
 
@@ -86,7 +86,7 @@ fetchData() {
             Learn React
           </a>
         </header> */}
-      
+        <body>
         <h1 className="mainTitle">Top 11 Channels by Subscribers</h1>
         <ol type="2" className="ChannelsList">
           {channel_details.map(
@@ -102,7 +102,10 @@ fetchData() {
                 </li>
             )}
         </ol>
-        <h3 className="lastUpdate">Last Update: {latest_update_time}</h3>
+        </body>
+        <footer>
+          <h3 className="lastUpdate">Last Update: {latest_update_time}</h3>
+        </footer>
         </div>
     );
   }
