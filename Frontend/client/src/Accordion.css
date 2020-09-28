@@ -1,0 +1,64 @@
+.videoDetails {
+    height: 50px; 
+    vertical-align: middle;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    color: white;
+}
+
+.accordion {
+    width: 100%;
+    border: 1px solid black;
+    padding: 20px;
+    border-collapse: collapse;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.channelSubCount, .channelVideoCount, .channelName {
+    border-right: 1px solid black;
+    height: 100%;
+}
+
+.chevron {
+    padding: 5px;
+    margin: 5px;
+}
+
+.videoTitle, .videoViewCount, .videoLikeCount, th, .videoDislikeCount, .videoCommentCount, .videoVideoScore, .videoTime, .videoID{
+    border: 1px solid black;
+    margin: 20px;
+    padding: 20px;
+}
+
+.videoInformation:nth-child(even) {
+    background-color: #842DCE;
+}
+
+.videoInformation:hover {
+    background-color:#9CCC65;
+}
+
+.videoHeader {
+    background-color: #4CAF50;
+}
+
+a {
+    color: white;
+}
+
+.accordion_content {
+    justify-items: center;
+}
+
+.channelDetails {
+    width: 95%;
+}
+
+.channelSubCount, .channelVideoCount, .channelName, .chevron {
+    text-align: center;
+}

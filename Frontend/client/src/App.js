@@ -4,21 +4,22 @@ import './App.css';
 import CountIncrease from './Icons/CountIncrease.js';
 import CountDecrease from './Icons/CountDecrease.js';
 import CountEqual from './Icons/CountEqual.js';
+import Accordion from './Accordion.js';
 
 function differenceHelper(differenceNumber)
 {
   if (differenceNumber > 0)
   {
-    return <div> <CountIncrease width={12} height={15} /> {differenceNumber} </div>;
+    return <span className="increaseNumber"><CountIncrease width={12} height={14} /> {differenceNumber} </span>;
   } else if (differenceNumber < 0) {
 
     let non_negative = differenceHelper*-1;
     
-    return <div> <CountDecrease width={12} height={15}  /> {non_negative} </div>;
+    return <span className="decreaseNumber"> <CountDecrease width={12} height={13}  /> {non_negative} </span>;
 
 
   } else {
-    return <div><CountEqual width={12} height={15} fill={"#842DCE"}/> {differenceNumber} </div> ;
+    return <span className="sameNumber"><CountEqual width={12} height={12} /> {differenceNumber}</span>;
   }
 }
 
@@ -53,7 +54,13 @@ componentDidMount()
         error
       });
     }
-  )
+  );
+}
+
+fetchData() {
+  let data = fetch('/express_backend').then(res => res.json());
+
+  return data;
 }
 
   render(){
@@ -84,14 +91,18 @@ componentDidMount()
         <ol type="2" className="ChannelsList">
           {channel_details.map(
               channel =>
-                <li key = {channel.Name} className="ChannelDetails">
-                    <p className="ChannelName">Channel Name: {channel.Name}</p> 
-                    <p className="subCount">Subscribers: {channel.Details.Subscriber_Count} {differenceHelper(channel.Updates.Sub_Count_Diff)} </p> 
-                    <p className="videoCount"> Video Count: {channel.Details.Video_Count}     {differenceHelper(channel.Updates.Vid_Count_Diff)} </p>               
+               <li> 
+                    <Accordion Name={channel.Name}  
+                               subCount={channel.Details.Subscriber_Count} 
+                               videoCount={channel.Details.Video_Count} 
+                               subDiff={differenceHelper(channel.Updates.Sub_Count_Diff)} 
+                               vidDiff={differenceHelper(channel.Updates.Vid_Count_Diff)} 
+                               videoDetails={channel.Latest_Videos}
+                               /> 
                 </li>
             )}
         </ol>
-        <h5>Last Update: {latest_update_time}</h5>
+        <h3 className="lastUpdate">Last Update: {latest_update_time}</h3>
         </div>
     );
   }

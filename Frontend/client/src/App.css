@@ -1,7 +1,13 @@
+* {
+  box-sizing: border-box;
+  margin: 10;
+  padding: 10;
+}
+
 .App {
-  text-align: center;
   background-color: #282c34;
   color: #61dafb;
+  text-align: center;
 }
 
 .App-logo {
@@ -31,8 +37,49 @@
 }
 
 .ChannelsList {
-  list-style-position: inside;
+  list-style-type: none;
+  border: 1px solid #61dafb;
   
+}
+
+.ChannelDetails {
+  margin: 15px 0px 15px 0px;
+  
+}
+
+.increaseNumber {
+  color: #4CC417;
+}
+
+.decreaseNumber {
+  color: #F70D1A;
+}
+
+.sameNumber {
+  color: #842DCE;
+}
+
+.ChannelName {
+  margin-right: 100px;
+  margin-left: 60 px;
+  float: left;
+  
+}
+
+.subCount {
+  margin-right: 60px;
+  text-align: left;
+}
+
+.videoCount {
+  margin-right: 40px;
+  
+}
+
+.lastUpdate {
+  float: center;
+  text-align: center;
+  vertical-align: middle;
 }
 
 @keyframes App-logo-spin {
