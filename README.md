@@ -19,7 +19,7 @@ __ReactJS__ (Frontend Dashboard to present data pulled from S3 Bucket).
 Application Data Architecture
 ---
 
-![Image of Data Architecture] (Youtube_Data_API_Architecture.png)
+![Image of Data Architecture] (https://github.com/karuaan/Youtube-Data-API/blob/master/Youtube_Data_API_Architecture_Diagram.png)
 
 Functionality:
 ---
