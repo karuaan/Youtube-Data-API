@@ -34,9 +34,11 @@ How to Run:
 
 1. Clone the Repo from Github.
 2. Create a Virtual Environment:
+
 *__Make Virtual Environment:__ `python3 -m venv /path/to/new/virtual/environment`
 
 *__Activate Virtual Environment:__ `\path\to\new\virtual\environment\Scripts\activate`
+
 3. Install all packages in requirement.txt:
 
 `pip install -r requirements.txt`
