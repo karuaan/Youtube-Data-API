@@ -12,13 +12,14 @@
     border: 1px solid black;
     padding-top: 20px;
     padding-bottom: 20px;
-    border-collapse: collapse;
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
-    font-size: 16px;
+    font-size: 20px;
     overflow: hidden;
+    display: flex;
+    align-items: center;
 }
 
 .accordion.active {
@@ -35,8 +36,7 @@
 }
 
 .accordion_icon {
-    margin-right: 0px;
-    padding-right: 0px;
+    margin-left: auto;
     transition: transform 0.6s ease;
 }
 
@@ -44,9 +44,9 @@
     transform: rotate(90deg);
 }
 
-.videoTitle, .videoViewCount, .videoLikeCount, th, .videoDislikeCount, .videoCommentCount, .videoVideoScore, .videoTime, .videoID {
+.videoTitle, .videoViewCount, .videoLikeCount, th, .videoDislikeCount, .videoCommentCount, .videoVideoScore, .videoTime, .videoID, .videoChecker {
     border: 1px solid black;
-    margin: 20px;
+    margin: 30px;
     padding: 20px;
     font-size: 50;
 }

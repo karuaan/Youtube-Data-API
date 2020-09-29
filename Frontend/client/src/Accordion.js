@@ -10,6 +10,23 @@ function linkCreate(videoID) {
     return urlLink
 }
 
+function new_checker(value) {
+    if (value === "NEW")
+    {
+        return "Y";
+    }
+
+    if (value === "OLD")
+    {
+        return "N";
+    }
+
+    else
+    {
+        return null;
+    }
+}
+
 function Accordion(props)
 {
     const [setActive, setActiveState] = useState("");
@@ -28,7 +45,7 @@ function Accordion(props)
     <div className="accordion_section">
         <button className={`accordion ${setActive}`} onClick={toggleAccordion}>
             <table className="channelDetails">
-                <td className="channelName"><b>Channel Name: {props.Name}</b></td>
+    <td className="channelName"><b>Channel Name: {props.Name}</b></td>
                 <td className="channelSubCount"><b>Subscriber Count: {props.subCount}</b> {props.subDiff}</td>
                 <td className="channelVideoCount"><b>Video Count: {props.videoCount}</b> {props.vidDiff}</td>
                 <Chevron className={`${setRotate}`} width ={25} height={25} />
@@ -39,6 +56,7 @@ function Accordion(props)
                 <table className="videoDetails">
                     <thead className="videoHeader">
                         <th>Title</th>
+                        <th>Is New?</th>
                         <th>View Count</th>
                         <th>Like Count</th>
                         <th>Dislike Count</th>
@@ -51,13 +69,14 @@ function Accordion(props)
                         video =>
                         <tbody className="videoInformation">
                             <td className="videoTitle">{video.Video_Details.Title}</td>
+                            <td className="videoChecker">{new_checker(video.New_Checker)}</td>
                             <td className="videoViewCount">{video.Video_Details.View_Count}</td>
                             <td className="videoLikeCount">{video.Video_Details.Like_Count}</td>
                             <td className="videoDislikeCount">{video.Video_Details.Dislike_Count}</td>
                             <td className="videoCommentCount">{video.Video_Details.Comment_Count}</td>
                             <td className="videoVideoScore">{video.Video_Details.Video_Score}</td>
                             <td className="videoTime">{video.Video_Details.Published_Time}</td>
-                            <td className="videoID"><a href={linkCreate(video.Video_ID)}>Video</a></td>
+                            <td className="videoID"><a href={linkCreate(video.Video_ID)} target="_blank" rel="noopener noreferrer">Video</a></td>
                         </tbody>
                     )}
                 </table>

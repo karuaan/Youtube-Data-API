@@ -12,12 +12,9 @@ from Keys import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, youtube_dev_keys
 
 api_service_name = "youtube"
 api_version = "v3"
-#youtube_dev_keys = 'AIzaSyAfaRcWzZheVBtQ5o1e3sudkfG9NlNF2js'
 
 youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey=youtube_dev_keys)
 
-# AWS_ACCESS_KEY_ID = 'AKIAIKWAPGO3XRCZZM5A'
-# AWS_SECRET_ACCESS_KEY = '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'
 bucket_name = 'youtubechannelsdatas3'
 
 s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
@@ -126,11 +123,12 @@ def sort_channels_list_by_Subs(channels_list: list) -> list:
             temp[j + 1] = insert_item
     return channels_list
 
-def get_playlist_items(playlist_id: str, num_of_new_videos: int) -> list:
+def get_playlist_items(playlist_id: str, num_of_new_videos: int, total_videos_to_pull: int) -> list:
     videos: list = []
+    new_video_counter: int = 0
     request = youtube.playlistItems().list(
         part="snippet",
-        maxResults=num_of_new_videos,
+        maxResults=total_videos_to_pull,
         playlistId=playlist_id,
         prettyPrint=True
     )
@@ -154,7 +152,11 @@ def get_playlist_items(playlist_id: str, num_of_new_videos: int) -> list:
                         print("\nVideo ID does not exist.\n")
                     else:
                         video_details: dict = get_video_details(video_id)
-                        temp: dict = { "Video_ID" : video_id, "Video_Details" :  video_details}
+                        if (new_video_counter < num_of_new_videos):
+                            temp: dict = { "Video_ID" : video_id, "New_Checker": "NEW", "Video_Details" :  video_details}
+                            new_video_counter+=1
+                        else:
+                            temp: dict = { "Video_ID" : video_id, "New_Checker": "OLD", "Video_Details" :  video_details}
                         videos.append(temp)
         return videos
 
@@ -393,12 +395,12 @@ def get_latest_videos(diff_list: list) -> list:
                         print("\nVideo Count Difference is not available.\n")
                     else:
                         if (Vid_count_diff <= 5):
-                            new_videos: list = get_playlist_items(playlist_id,5)
+                            new_videos: list = get_playlist_items(playlist_id,Vid_count_diff,5)
                             sorted_videos: list = sort_videos_list_dict(new_videos)
                             videos: dict = {"Channel_Name" : channel_name, "Latest_Videos" : sorted_videos}
                             latest_channel_videos.append(videos)
                         else:
-                            new_videos: list = get_playlist_items(playlist_id,Vid_count_diff)
+                            new_videos: list = get_playlist_items(playlist_id,Vid_count_diff,Vid_count_diff)
                             sorted_videos: list = sort_videos_list_dict(new_videos)
                             top_five: list = sorted_videos[:5] 
                             videos: dict = {"Channel_Name" : channel_name, "Latest_Videos" : top_five}
@@ -469,7 +471,7 @@ def make_latest_file(main_list: list):
      file_details: dict = {}
      curr_date_time: str = datetime.datetime.utcnow().ctime()
      file_name: str = "latest.json"
-     file_details["Title"] = "Top 10 Youtube Channels Subcribers Update"
+     file_details["Title"] = "Top 11 Youtube Channels Subcribers Update"
      file_details["Last_Update_Time"] = curr_date_time
      file_details["Channel_Details"] = main_list
      new_json_file: str = json.dumps(file_details, indent=2)
