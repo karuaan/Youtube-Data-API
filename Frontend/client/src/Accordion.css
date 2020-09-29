@@ -51,16 +51,17 @@
     font-size: 50;
 }
 
-.videoInformation:nth-child(even) {
-    background-color: #842DCE;
+.videoInformation {
+    background-color: #282c34;
 }
 
 .videoInformation:hover {
-    background-color:#9CCC65;
+    background-color:#01DFD7;
+    color: #282c34;
 }
 
 .videoHeader {
-    background-color: #4CAF50;
+    background-color: #FF0040;
 }
 
 a {

@@ -56,7 +56,7 @@ function Accordion(props)
                 <table className="videoDetails">
                     <thead className="videoHeader">
                         <th>Title</th>
-                        <th>Is New?</th>
+                        <th>New?</th>
                         <th>View Count</th>
                         <th>Like Count</th>
                         <th>Dislike Count</th>
