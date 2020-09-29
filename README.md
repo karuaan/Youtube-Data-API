@@ -12,6 +12,15 @@ __Youtube API__ (Pulled Channel information through Youtube Data API).
 
 __Python3__ (Backend API for ETL Processes).
 
+__NodeJS__ (Backend Web Interface to get data from S3 Bucket).
+
+__ReactJS__ (Frontend Dashboard to present data pulled from S3 Bucket).
+
+Application Data Architecture
+---
+
+![Image of Data Architecture] (Youtube_Data_API_Architecture.png)
+
 Functionality:
 ---
 
@@ -33,19 +42,17 @@ How to Run:
 `pip install -r requirements.txt`
 
 `pip freeze > requirements.txt`
+
 4. Create a Google API Key: `https://console.developers.google.com/`
 5. Enable Youtube Data API for Google API Keys.
 6. Replace AWS Keys in Keys and Google API Keys in Keys.py.
 7. Make an S3 Bucket.
 8. (Optional) To run code on local machine, please run channelsBySubscribers.py. (Optional)
 9. Create a Lambda in AWS and upload the code to AWS.
-10. Profit.
+10. Profit!!!
 
 Future Plans:
 ---
 
-1. Make a Dashboard for this application.
-2. Let users provide channels they are interested in.
-3. Provide users updates on those channels.
-4. Project Emails once a day listing latest videos.
+1. Project Emails once a day listing latest videos.
 
