@@ -1,0 +1,14 @@
+* {
+    align-content: center;
+    vertical-align: middle;
+}
+
+.formDisplay {
+    color: black;
+}
+
+.channelsList {
+    max-height:250px;
+    color: seagreen;
+    overflow-y:auto;
+}

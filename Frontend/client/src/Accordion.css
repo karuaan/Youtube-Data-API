@@ -58,6 +58,7 @@
 .videoInformation:hover {
     background-color:#01DFD7;
     color: #282c34;
+    font-style: bold;
 }
 
 .videoHeader {

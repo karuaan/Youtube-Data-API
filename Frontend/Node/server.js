@@ -15,6 +15,11 @@ const params = {
     Key: AWS_Keys.readFileName
   };
 
+const userchannelsparams = {
+  Bucket: AWS_Keys.bucketName,
+  Key: AWS_Keys.mychannelsfile
+}
+
 const s3 = new aws.S3();
 
 async function get_latest()
@@ -34,13 +39,46 @@ async function get_latest()
     }
 }
 
+async function get_user_channel()
+{
+    try
+    {
+        console.log('Reading File:');
+        var response = await s3.getObject(userchannelsparams).promise();
+
+        var json = await JSON.parse(response.Body);
+
+        return json;
+    }
+    catch(err)
+    {
+        const new_json = {"Last_Update_Time" : "No Channels Added!", "Channel_Details" : {"Name" : "No Channels are available. Please add channels!"}}
+        return new_json;
+    }
+}
+
 // create a GET route
 app.get('/express_backend', async (req, res) => {
 
   const data = await get_latest();
 
-  res.send(data);
+  if (data == "none") {
+    res.send([]);
+  }
+
+  else
+  {
+    res.send(data);
+  }
 });
+
+app.get('/userchannels', async (req, res) => {
+
+  const data = await get_user_channel();
+
+    res.send(data);
+});
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
