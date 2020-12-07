@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 import './Form.css';
 
 class Form extends Component
@@ -66,6 +66,32 @@ class Form extends Component
         }
     }
 
+    send_to_node = async(e) =>
+    {
+        e.preventDefault();
+
+        const { channels } = this.state;
+        try
+        {
+            console.log( channels );
+            const response = await fetch( 'http://localhost:1000/channels_list', {
+                mode: 'no-cors',
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                Body: { Channels_List: channels }
+            } );
+            console.log( response )
+        }
+        catch ( e )
+        {
+            console.log( e );
+        }
+    };
+   
+
     render()
     {
         const { error, channels } = this.state;
@@ -92,7 +118,7 @@ class Form extends Component
                          )}
                     </div>
                 </div>
-
+                <button type="button" onClick={this.send_to_node}>Save Channels</button>
             </div>
         );
     }
