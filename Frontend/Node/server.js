@@ -1,8 +1,19 @@
 const express = require('express');
 const app = express();
+const router = new express.Router();
 const port = 1000;
 const aws = require('aws-sdk');
-const { AWS_Keys } = require('./keys.js');;
+const { AWS_Keys } = require( './keys.js' );
+const cors = require( 'cors' );
+const bodyParser = require( 'body-parser' );
+const jsonParser = bodyParser.json();
+
+app.use(
+  cors({
+    origin: 'http://localhost:1000',
+    credentials: true,
+  })
+);
 
 aws.config.update({
     accessKeyId: AWS_Keys.accessKeyId,
@@ -57,6 +68,22 @@ async function get_user_channel()
     }
 }
 
+async function uploadFile ( data )
+{
+  const uploadParams = {
+    Bucket: AWS_Keys.bucketName,
+    Key: AWS_Keys.channelsListFile,
+    Body: data
+  }
+
+  s3.upload(params, function(err, new_data) {
+    if (err) {
+        throw err;
+    }
+    console.log(`File uploaded successfully. ${new_data.Location}`);
+});
+}
+
 // create a GET route
 app.get('/express_backend', async (req, res) => {
 
@@ -70,16 +97,30 @@ app.get('/express_backend', async (req, res) => {
   {
     res.send(data);
   }
-});
+} );
 
-app.get('/userchannels', async (req, res) => {
+app.get( '/express_backend', async ( req, res ) =>
+{
+  res.send( { response: 'Received' } );
+  }
+)
 
-  const data = await get_user_channel();
-
-    res.send(data);
-});
-
-
+app.post('/channels_list', jsonParser, async( req, res ) =>
+{
+  req.setTimeout( 100 );
+  console.log( 'channels_list' );
+  console.log( req.ody.Channels_List );
+  try
+  {
+    const upload_feed = await uploadFile( req.body );
+    return res.status( 200 ).send( upload_feed );
+  }
+  catch ( err )
+  {
+    return res.status( 500 ).send( err );
+  }
+  
+} );
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
