@@ -1,7 +1,7 @@
 .vscode
 Backend/googleapi/*
 Backend/youtube_api_lambda_function/*
-#Backend/Keys.py
+Backend/Keys.py
 Frontend/Node/node_modules/*
 #Frontend/Node/keys.js
 latest.json
