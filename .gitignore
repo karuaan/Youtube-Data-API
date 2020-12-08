@@ -24,5 +24,8 @@ Frontend/client/.env.production.local
 Frontend/client/npm-debug.log*
 Frontend/client/yarn-debug.log*
 Frontend/client/yarn-error.log*
-#Frontend/Node/Keys.js
-#Backend/keys.py
+
+# Keys
+Backend/keys.py
+Frontend/Node/Keys.js
+Frontend/Node/keys.js
