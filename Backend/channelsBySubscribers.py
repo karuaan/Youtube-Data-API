@@ -8,7 +8,7 @@ import time
 import boto3
 from botocore.exceptions import NoCredentialsError
 from Data.Channels_Data import youtubechannels
-from Keys import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, youtube_dev_keys
+from keys import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, youtube_dev_keys
 
 api_service_name = "youtube"
 api_version = "v3"
