@@ -99,17 +99,11 @@ app.get('/express_backend', async (req, res) => {
   }
 } );
 
-app.get( '/express_backend', async ( req, res ) =>
-{
-  res.send( { response: 'Received' } );
-  }
-)
-
 app.post('/channels_list', jsonParser, async( req, res ) =>
 {
   req.setTimeout( 100 );
   console.log( 'channels_list' );
-  console.log( req.ody.Channels_List );
+  console.log( req.body.Channels_List );
   try
   {
     const upload_feed = await uploadFile( req.body );
@@ -121,6 +115,8 @@ app.post('/channels_list', jsonParser, async( req, res ) =>
   }
   
 } );
+
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
