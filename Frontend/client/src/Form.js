@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import './Form.css';
 
 class Form extends Component
@@ -81,7 +81,7 @@ class Form extends Component
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                Body: { Channels_List: channels }
+                body: JSON.stringify({ Channels_List: channels })
             } );
             console.log( response )
         }
